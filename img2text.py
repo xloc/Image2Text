@@ -1,5 +1,5 @@
 import Image
-from char import CHAR_HEIGHT,CHAR_WIDTH,CHAR_TABLE
+from char import CHAR_HEIGHT, CHAR_WIDTH, CHAR_TABLE
 
 
 def if_just_fit(image):
