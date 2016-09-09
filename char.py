@@ -49,6 +49,8 @@ for i in range(len(blist)-1):
     for b in range(blist[i][0],blist[i+1][0]):
         charBrightnessTable.append(blist[i][1])
 
+CHAR_TABLE = "".join(charBrightnessTable)
+
 # for ln in enumerate(charBrightnessTable):
 #     print "'{}'\t- {}".format(ln[1],ln[0])
 
