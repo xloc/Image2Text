@@ -1,7 +1,7 @@
 import ImageFont,ImageDraw,Image
 
-font = ImageFont.truetype(r'/Library/Fonts/Andale Mono.ttf', 10)
-# font = ImageFont.truetype('/System/Library/Fonts/Menlo.ttc',10)
+# font = ImageFont.truetype(r'/Library/Fonts/Andale Mono.ttf', 10)
+font = ImageFont.truetype('/System/Library/Fonts/Menlo.ttc',12)
 
 charset = " !\"#$%&'()*+,-./0123456789:;<=>?@" \
           "ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`" \
