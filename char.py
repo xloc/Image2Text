@@ -10,18 +10,18 @@ charset = " !\"#$%&'()*+,-./0123456789:;<=>?@" \
 brightnessMap = {}
 
 
-CharSize = font.getsize(charset[0])
+CHAR_SIZE = font.getsize(charset[0])
 
 for ich in charset:
-    im = Image.new("RGB", CharSize, "white")
+    im = Image.new("RGB", CHAR_SIZE, "white")
     draw = ImageDraw.Draw(im)
 
     draw.text((0, 0, 0, 0), ich, fill="black", font=font)
 
     import itertools as it
     eachpix = it.product(\
-        range(CharSize[0]),\
-        range(CharSize[1]))
+        range(CHAR_SIZE[0]),\
+        range(CHAR_SIZE[1]))
     grayPxs = [sum(im.getpixel(xy))/3 for xy in eachpix]
     # for xy in eachpix:
     #     print im.getpixel(xy)
