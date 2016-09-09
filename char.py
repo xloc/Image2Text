@@ -11,6 +11,8 @@ brightnessMap = {}
 
 
 CHAR_SIZE = font.getsize(charset[0])
+CHAR_WIDTH = CHAR_SIZE[0]
+CHAR_HEIGHT = CHAR_SIZE[1]
 
 for ich in charset:
     im = Image.new("RGB", CHAR_SIZE, "white")
