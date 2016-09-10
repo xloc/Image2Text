@@ -45,6 +45,8 @@ def find_most_fit(img):
     criterias = numpy.absolute(MAT_FEATURE_TABLE - repeated_feature).mean(axis=1, dtype=numpy.float32)
     best_idx = criterias.argmin()
 
-    print best_idx, '->', CHAR_INDEX_MAP[best_idx]
+    # print best_idx, '->', CHAR_INDEX_MAP[best_idx]
+
+    return CHAR_INDEX_MAP[best_idx]
 
 find_most_fit(char_img("}"))
