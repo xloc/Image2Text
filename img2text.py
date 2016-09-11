@@ -44,7 +44,9 @@ def gen_column_iterator(image):
 im = Image.open("img.jpg")
 im = im.convert("L")
 
-im = make_a_proper_pic(im, 40)
+im = make_a_proper_pic(im, 20)
+
+import finepattern as fp
 
 
 with open("output.txt", "w") as output:
@@ -52,13 +54,14 @@ with open("output.txt", "w") as output:
     import itertools as it
     for ir in gen_row_iterator(im):
         for ich in gen_column_iterator(ir):
-            eachPix = it.product(
-                range(CHAR_WIDTH),
-                range(CHAR_HEIGHT))
-            grayPxs = [ich.getpixel(xy) for xy in eachPix]
-            value = sum(grayPxs)/len(grayPxs)
+            # eachPix = it.product(
+            #     range(CHAR_WIDTH),
+            #     range(CHAR_HEIGHT))
+            # grayPxs = [ich.getpixel(xy) for xy in eachPix]
+            # value = sum(grayPxs)/len(grayPxs)
+            ch = fp.find_most_fit(ich)
 
-            output.write(CHAR_TABLE[value])
+            output.write(ch)
 
         output.write("\n")
 
