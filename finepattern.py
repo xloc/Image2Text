@@ -41,7 +41,7 @@ def find_most_fit(img):
     ftr = cell_feature(img)
 
     repeated_feature = numpy.mat(ftr).repeat(len(FEATURE_TABLE), axis=0)
-    numpy.savetxt("feature_table.txt",repeated_feature,fmt="%d",delimiter='\t')
+    # numpy.savetxt("feature_table.txt",repeated_feature,fmt="%d",delimiter='\t')
     criterias = numpy.absolute(MAT_FEATURE_TABLE - repeated_feature).mean(axis=1, dtype=numpy.float32)
     best_idx = criterias.argmin()
 
