@@ -34,7 +34,7 @@ def main():
     # Trim the picture to a proper size
     img = trim_pic(img, 20)
     # Import criteria
-    import finepattern as fp
+    import brightness as fp
     with open("output.txt", "w") as output:
 
         for ir in row_iterator(img):
