@@ -1,4 +1,5 @@
 import Image
+import numpy
 
 import char
 from char import draw_char
@@ -23,11 +24,7 @@ for ich in char.charset:
     FEATURE_TABLE.append(feature)
     CHAR_INDEX_MAP.append(ich)
 
-import numpy
-
 MAT_FEATURE_TABLE = numpy.mat(FEATURE_TABLE)
-
-
 
 
 def find_most_fit(img):
@@ -35,11 +32,9 @@ def find_most_fit(img):
 
     repeated_feature = numpy.mat(ftr).repeat(len(FEATURE_TABLE), axis=0)
     # numpy.savetxt("feature_table.txt",repeated_feature,fmt="%d",delimiter='\t')
-    criterias = numpy.absolute(MAT_FEATURE_TABLE - repeated_feature).mean(axis=1, dtype=numpy.float32)
-    best_idx = criterias.argmin()
+    criteria = numpy.absolute(MAT_FEATURE_TABLE - repeated_feature).mean(axis=1, dtype=numpy.float32)
+    best_idx = criteria.argmin()
 
     # print best_idx, '->', CHAR_INDEX_MAP[best_idx]
 
     return CHAR_INDEX_MAP[best_idx]
-
-find_most_fit(draw_char("}"))
