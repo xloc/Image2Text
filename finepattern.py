@@ -1,5 +1,7 @@
+import Image
+
 import char
-import Image, ImageDraw
+from char import draw_char
 
 SAMPLE_SIZE = (3, 3)
 
@@ -10,20 +12,11 @@ def cell_feature(img):
     return list(reduced.getdata())
 
 
-def char_img(c):
-    img = Image.new("L", char.CHAR_SIZE, "white")
-    draw = ImageDraw.Draw(img)
-
-    draw.text((0, 0, 0, 0), c, fill="black", font=char.font)
-
-    return img
-
-
 FEATURE_TABLE = []
 CHAR_INDEX_MAP = []
 
 for ich in char.charset:
-    iimg = char_img(ich)
+    iimg = draw_char(ich)
 
     feature = cell_feature(iimg)
 
@@ -49,4 +42,4 @@ def find_most_fit(img):
 
     return CHAR_INDEX_MAP[best_idx]
 
-find_most_fit(char_img("}"))
+find_most_fit(draw_char("}"))
