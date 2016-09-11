@@ -1,50 +1,54 @@
-#coding=utf-8
+# coding=utf-8
 import char
 
 import numpy as np
 
+
 # Features are in columns
-def pca(dataMat, topNfeat=5):
+def pca(data, reduced_dim=5):
     # Calculate mean & std -> row vector
-    miu = np.mean(dataMat, axis=0)
-    sigma = np.std(dataMat)
+    miu = np.mean(data, axis=0)
+    sigma = np.std(data)
 
     # Normalization
-    stded = (dataMat - miu) / sigma
+    ndata = (data - miu) / sigma
 
-    covMat = np.cov(stded, rowvar=False) #求协方差方阵
-    eigVals, eigVects = np.linalg.eig(np.mat(covMat)) #求特征值和特征向量
+    cov_mat = np.cov(ndata, rowvar=False)
+    eigvals, eigvects = np.linalg.eig(np.mat(cov_mat))
 
     # Sort eigenvalues
     # argsort returns indexes
-    eigValInd = np.argsort(eigVals)
+    eig_idx = np.argsort(eigvals)
 
-    eigValInd = eigValInd[:-(topNfeat + 1):-1]
-    redEigVects = eigVects[:, eigValInd]       # 除去不需要的特征向量
+    eig_idx = eig_idx[:-(reduced_dim + 1):-1]
+    transmat = eigvects[:, eig_idx].real
 
-    lowDDataMat = stded * redEigVects    #求新的数据矩阵
-    reconMat = (lowDDataMat * redEigVects.T) * sigma + miu
-    return lowDDataMat, reconMat
+    # Use Eigenvectors to reduce the raw data
+    low_d_data = ndata * transmat
+    return low_d_data, transmat
 
 
-import Image, ImageDraw
+charUnwind = []
+for ich in char.charset:
+    im = char.draw_char(ich)
 
-unwindData = []
-for ich in '!@#oe':
-    im = Image.new("RGB", char.CHAR_SIZE, "white")
-    draw = ImageDraw.Draw(im)
+    # grayPxs = im.resize((3, 3), resample=Image.ANTIALIAS).getdata()
+    grayPxs = im.getdata()
 
-    draw.text((0, 0, 0, 0), ich, fill="black", font=char.font)
+    charUnwind.append(grayPxs)
 
-    import itertools as it
-    eachpix = it.product(\
-        range(char.CHAR_WIDTH),\
-        range(char.CHAR_HEIGHT))
+charMat = np.mat(charUnwind)
 
-    grayPxs = [sum(im.getpixel(xy)) / 3 for xy in eachpix]
-    unwindData.append(grayPxs)
+charFeature, transformer = pca(charMat)
 
-datamat = np.mat(unwindData)
 
-lowerDimensionalData, other = pca(datamat)
-print lowerDimensionalData
+def find_most_fit(img):
+    ftr = np.mat(img.getdata())
+    reduced_ftr = ftr * transformer
+
+    ftrt = reduced_ftr.repeat(len(charFeature), axis=0)
+    criteria = np.absolute(ftrt - charFeature).mean(axis=1, dtype=np.float32)
+
+    best_idx = criteria.argmin()
+
+    return char.charset[best_idx]
